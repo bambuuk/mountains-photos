@@ -1,10 +1,11 @@
-import { FC } from 'react'
+import { FC } from 'react';
+import Content from './components/Content';
 
 const App: FC = () => {
 
   return (
     <>
-      Home
+      <Content />
     </>
   )
 }
