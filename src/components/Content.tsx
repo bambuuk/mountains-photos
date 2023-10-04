@@ -1,7 +1,8 @@
-import {FC} from 'react'
+import { FC } from 'react'
 import Header from './Header';
 import styled from 'styled-components';
 import Footer from './Footer';
+import PhotosList from './PhotosList';
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,8 +19,8 @@ const Content: FC = () => {
     <Wrapper>
       <Header />
       <MainContent>
-        Main content
-      </MainContent> 
+        <PhotosList />
+      </MainContent>
       <Footer />
     </Wrapper>
   )
