@@ -44,7 +44,7 @@ const ThemeSwitcher = styled.div`
 `;
 
 const ThemeSwitcherText = styled.div`
-  font-size: var(--fs-lg);
+  font-size: var(--fs-md);
   text-transform: capitalize;
 `;
 
@@ -53,7 +53,8 @@ const Header: FC = () => {
 
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
-  }, [theme])
+  }, [theme]);
+
   return (
     <HeaderEl>
       <Container>
