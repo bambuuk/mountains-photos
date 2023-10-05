@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Container } from './Container';
 import { TfiClose } from "react-icons/tfi";
@@ -17,15 +17,19 @@ const Wrapper = styled.div`
     grid-template-columns: repeat(2, minmax(auto, 380px));
     grid-auto-rows: minmax(auto, 220px);
   }
+  @media (min-width: 768px) {
+    gap: 30px
+  }
   @media (min-width: 1240px) {
     grid-template-columns: repeat(3, minmax(auto, 380px));
   }
 `;
+
 const Img = styled.img`
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   cursor: pointer;
   transition: scale 0.2s ease-in-out;
   
@@ -34,15 +38,16 @@ const Img = styled.img`
   }
 `;
 
-const Popup = styled.div<{ isOpen: boolean }>`
-  opacity: ${props => (props.isOpen ? 1 : 0)};
-  visibility: ${props => (props.isOpen ? 'visible' : 'hidden')};
+const Popup = styled.div<{ isopen: string }>`
+  opacity: ${props => (props.isopen === 'true' ? 1 : 0)};
+  visibility: ${props => (props.isopen === 'true' ? 'visible' : 'hidden')};
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   background-color: rgba(77, 77, 77, 0.884);
+  transition: all 0.3s;
 `;
 
 const PopupOverlay = styled.div`
@@ -60,27 +65,49 @@ const PopupWrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: var(--colors-ui-base);
-  overflow-y: scroll;
-  `;
+  overflow-y: auto;
+  @media (min-width: 576px) {
+    width: 500px;
+    min-height: 550px;
+  }
+  @media (min-width: 768px) {
+    width: 500px;
+    min-height: 550px;
+    max-height: 900px;
+  }
+  @media (min-width: 1024px) {
+    width: 900px;
+    max-height: 600px;
+    display: grid;
+    grid-template-columns: 480px  1fr;
+    grid-template-rows: 2fr 1fr;
+    gap: 20px;
+    padding: 30px 40px 30px 20px;
+  }
+`;
 
 const PopupImg = styled.img`
   display: block;
   width: 100%;
-  height: 200px;
+  max-height: 250px;
   object-fit: cover;
-`;
-
-const PopupBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  padding: 20px 20px 30px;
+  @media (min-width: 1024px) {
+    max-height: 360px;
+  }
 `;
 
 const CommentsList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding: 20px 15px;
+  @media (min-width: 1024px) {
+    max-width: 450px;
+    overflow: auto;
+    padding: 0;
+    grid-row: 1 / 3;
+    grid-column: 2 / 3;
+  }
 `;
 
 const CommentItem = styled.div`
@@ -105,6 +132,13 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  padding: 0 15px 30px 15px;
+  @media (min-width: 1024px) {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    padding: 0;
+    align-self: start;
+  }
 `;
 
 const Input = styled.input`
@@ -125,50 +159,98 @@ const Button = styled.button`
   border-radius: var(--radii);
 `;
 
-const CloseIconWrap = styled.div`
+const CloseIcon = styled(TfiClose)`
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 10px;
+  right: 10px;
   font-size: var(--fs-lg);
   color: var(--colors-text);
+  cursor: pointer;
+  transition: color 0.2s;
+  &:hover {
+    color: red;
+  }
 `;
 
 const PhotosList: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const onClosePopup = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target === e.currentTarget) {
+      setIsOpen(false);
+    }
+  }
+
+  useEffect(() => {
+    isOpen ? document.body.classList.add("no-scroll") : document.body.classList.remove("no-scroll");
+  }, [isOpen]);
+
   return (
     <Container>
       <Wrapper>
         <Img onClick={() => setIsOpen(true)} src={bike} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={bike} alt="bike" />
+        <Img onClick={() => setIsOpen(true)} src={motorcycle} alt="bike" />
+        <Img onClick={() => setIsOpen(true)} src={motorcycle} alt="bike" />
         <Img onClick={() => setIsOpen(true)} src={motorcycle} alt="bike" />
         <Img onClick={() => setIsOpen(true)} src={bike} alt="bike" />
         <Img onClick={() => setIsOpen(true)} src={motorcycle} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={bike} alt="bike" />
       </Wrapper>
-      <Popup isOpen={isOpen}>
-        <PopupOverlay>
+      <Popup isopen={`${isOpen}`} >
+        <PopupOverlay onClick={onClosePopup}>
           <PopupWrapper>
             <PopupImg src={motorcycle} alt="bike" />
-            <CloseIconWrap onClick={() => setIsOpen(false)}>
-              <TfiClose />
-            </CloseIconWrap>
-            <PopupBody>
-              <CommentsList>
-                <CommentItem>
-                  <CommentDate>04/10/2023</CommentDate>
-                  <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
-                </CommentItem>
-                <CommentItem>
-                  <CommentDate>04/10/2023</CommentDate>
-                  <CommentText>asdasd</CommentText>
-                </CommentItem>
-              </CommentsList>
-              <Form>
-                <Input type="text" className="Input" placeholder='Your name' />
-                <Input type="text" className="Input" placeholder='Your comment' />
-                <Button className="Button">Send comment</Button>
-              </Form>
-            </PopupBody>
+            <CloseIcon onClick={onClosePopup} />
+            <CommentsList>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
+              </CommentItem>
+              <CommentItem>
+                <CommentDate>04/10/2023</CommentDate>
+                <CommentText>asdasd</CommentText>
+              </CommentItem>
+            </CommentsList>
+            <Form>
+              <Input type="text" className="Input" placeholder='Your name' />
+              <Input type="text" className="Input" placeholder='Your comment' />
+              <Button className="Button">Send comment</Button>
+            </Form>
           </PopupWrapper>
         </PopupOverlay>
       </Popup>
