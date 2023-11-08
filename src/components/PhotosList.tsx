@@ -4,6 +4,7 @@ import { Container } from './Container';
 import Popup from './Popup';
 import mountain2 from '../assets/mountain2.jpg';
 import mountain1 from '../assets/mountain1.jpg';
+import data from '../data/data.json';
 
 const Wrapper = styled.div`
   margin: 50px 0;
@@ -47,15 +48,16 @@ const PhotosList: FC = () => {
     }
   }
 
+  const content = data.map(({ img, id }) => {
+    return (
+      <Img key={id} onClick={() => setIsOpen(true)} src={img} alt="mountain" />
+    )
+  })
+
   return (
     <Container>
       <Wrapper>
-        <Img onClick={() => setIsOpen(true)} src={mountain2} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={mountain1} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={mountain1} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={mountain1} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={mountain2} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={mountain1} alt="bike" />
+        {content}
       </Wrapper>
       <Popup isOpen={isOpen} onClosePopup={onClosePopup} />
     </Container>
