@@ -1,10 +1,8 @@
 import { FC, useState } from 'react';
 import styled from 'styled-components';
+import data from '../data/data.json';
 import { Container } from './Container';
 import Popup from './Popup';
-import mountain2 from '../assets/mountain2.jpg';
-import mountain1 from '../assets/mountain1.jpg';
-import data from '../data/data.json';
 
 const Wrapper = styled.div`
   margin: 50px 0;
@@ -40,17 +38,17 @@ const Img = styled.img`
 `;
 
 const PhotosList: FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [activeCard, setActiveCard] = useState('');
 
   const onClosePopup = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
-      setIsOpen(false);
+      setActiveCard('');
     }
   }
 
   const content = data.map(({ img, id }) => {
     return (
-      <Img key={id} onClick={() => setIsOpen(true)} src={img} alt="mountain" />
+      <Img key={id} onClick={() => setActiveCard(id)} src={img} alt="mountain" />
     )
   })
 
@@ -59,7 +57,7 @@ const PhotosList: FC = () => {
       <Wrapper>
         {content}
       </Wrapper>
-      <Popup isOpen={isOpen} onClosePopup={onClosePopup} />
+      <Popup activeCard={activeCard} onClosePopup={onClosePopup} />
     </Container>
   )
 }

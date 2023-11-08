@@ -1,6 +1,8 @@
 import { FC, useEffect } from 'react';
 import styled from 'styled-components';
 import { TfiClose } from "react-icons/tfi";
+import data from '../data/data.json';
+import { nanoid } from 'nanoid';
 import mountain from '../assets/mountain1.jpg';
 
 const PopupUI = styled.div<{ isopen: string }>`
@@ -138,31 +140,35 @@ const CloseIcon = styled(TfiClose)`
 `;
 
 interface PopupProps {
-  isOpen: boolean;
+  activeCard: string;
   onClosePopup: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const Popup: FC<PopupProps> = ({ isOpen, onClosePopup }) => {
+const Popup: FC<PopupProps> = ({ activeCard, onClosePopup }) => {
+
+  const photoItem = data.filter(item => item.id === activeCard)[0];
 
   useEffect(() => {
-    isOpen ? document.body.classList.add("no-scroll") : document.body.classList.remove("no-scroll");
-  }, [isOpen]);
+    activeCard ? document.body.classList.add("no-scroll") : document.body.classList.remove("no-scroll");
+  }, [activeCard]);
+
+  const commentListContent = photoItem?.comments.length > 0 ? photoItem.comments.map(item => {
+    return (
+      <CommentItem key={nanoid()}>
+        <CommentDate>{item.date}</CommentDate>
+        <CommentText>{item.text}</CommentText>
+      </CommentItem>
+    )
+  }) : 'There are no comments yet';
 
   return (
-    <PopupUI isopen={`${isOpen}`} >
+    <PopupUI isopen={`${Boolean(activeCard)}`} >
       <PopupOverlay onClick={onClosePopup}>
         <PopupWrapper>
-          <PopupImg src={mountain} alt="bike" />
+          <PopupImg src={photoItem?.img} alt="mountain" />
           <CloseIcon onClick={onClosePopup} />
           <CommentsList>
-            <CommentItem>
-              <CommentDate>04/10/2023</CommentDate>
-              <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
-            </CommentItem>
-            <CommentItem>
-              <CommentDate>04/10/2023</CommentDate>
-              <CommentText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, inventore! Nam iste dignissimos aut deserunt aspernatur qui, ullam voluptate omnis. Id porro maxime eius eum consequuntur, facere a iste sed.</CommentText>
-            </CommentItem>
+            {commentListContent}
           </CommentsList>
           <Form>
             <Input type="text" className="Input" placeholder='Your name' />
