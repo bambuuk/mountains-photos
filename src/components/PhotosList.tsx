@@ -2,8 +2,8 @@ import { FC, useState } from 'react';
 import styled from 'styled-components';
 import { Container } from './Container';
 import Popup from './Popup';
-import bike from '../assets/cannondale.jpg';
-import motorcycle from '../assets/motorcycle.jpg';
+import mountain2 from '../assets/mountain2.jpg';
+import mountain1 from '../assets/mountain1.jpg';
 
 const Wrapper = styled.div`
   margin: 50px 0;
@@ -50,12 +50,12 @@ const PhotosList: FC = () => {
   return (
     <Container>
       <Wrapper>
-        <Img onClick={() => setIsOpen(true)} src={bike} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={motorcycle} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={motorcycle} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={motorcycle} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={bike} alt="bike" />
-        <Img onClick={() => setIsOpen(true)} src={motorcycle} alt="bike" />
+        <Img onClick={() => setIsOpen(true)} src={mountain2} alt="bike" />
+        <Img onClick={() => setIsOpen(true)} src={mountain1} alt="bike" />
+        <Img onClick={() => setIsOpen(true)} src={mountain1} alt="bike" />
+        <Img onClick={() => setIsOpen(true)} src={mountain1} alt="bike" />
+        <Img onClick={() => setIsOpen(true)} src={mountain2} alt="bike" />
+        <Img onClick={() => setIsOpen(true)} src={mountain1} alt="bike" />
       </Wrapper>
       <Popup isOpen={isOpen} onClosePopup={onClosePopup} />
     </Container>

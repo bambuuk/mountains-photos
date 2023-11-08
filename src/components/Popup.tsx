@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import styled from 'styled-components';
 import { TfiClose } from "react-icons/tfi";
-import motorcycle from '../assets/motorcycle.jpg';
+import mountain from '../assets/mountain1.jpg';
 
 const PopupUI = styled.div<{ isopen: string }>`
   opacity: ${props => (props.isopen === 'true' ? 1 : 0)};
@@ -152,7 +152,7 @@ const Popup: FC<PopupProps> = ({ isOpen, onClosePopup }) => {
     <PopupUI isopen={`${isOpen}`} >
       <PopupOverlay onClick={onClosePopup}>
         <PopupWrapper>
-          <PopupImg src={motorcycle} alt="bike" />
+          <PopupImg src={mountain} alt="bike" />
           <CloseIcon onClick={onClosePopup} />
           <CommentsList>
             <CommentItem>
