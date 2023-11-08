@@ -34,7 +34,7 @@ const Img = styled.img`
   transition: scale 0.2s ease-in-out;
   
   &:hover {
-    scale: calc(1.1);
+    scale: calc(1.05);
   }
 `;
 
