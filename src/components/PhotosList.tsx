@@ -30,10 +30,10 @@ const Img = styled.img`
   height: 100%;
   object-fit: cover;
   cursor: pointer;
-  transition: scale 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   
   &:hover {
-    scale: calc(1.05);
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
   }
 `;
 
