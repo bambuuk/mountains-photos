@@ -33,7 +33,7 @@ const Img = styled.img`
   transition: all 0.2s ease-in-out;
   
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
+    box-shadow: var(--photo-shadow);
   }
 `;
 
