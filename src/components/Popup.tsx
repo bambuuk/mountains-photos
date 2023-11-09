@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { TfiClose } from "react-icons/tfi";
 import data from '../data/data.json';
 import { nanoid } from 'nanoid';
-import mountain from '../assets/mountain1.jpg';
 
 const PopupUI = styled.div<{ isopen: string }>`
   opacity: ${props => (props.isopen === 'true' ? 1 : 0)};
