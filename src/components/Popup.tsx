@@ -118,7 +118,7 @@ const Button = styled.button`
   display: block;
   width: 100%;
   font-size: var(--fs-md);
-  color: var(--colors-text);
+  color: black;
   font-weight: var( --fw-normal);
   background-color: #0091ea;
   padding: 10px 0;
@@ -148,7 +148,11 @@ const Popup: FC<PopupProps> = ({ activeCard, onClosePopup }) => {
   const photoItem = data.filter(item => item.id === activeCard)[0];
 
   useEffect(() => {
-    activeCard ? document.body.classList.add("no-scroll") : document.body.classList.remove("no-scroll");
+    if (activeCard) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
   }, [activeCard]);
 
   const commentListContent = photoItem?.comments.length > 0 ? photoItem.comments.map(item => {

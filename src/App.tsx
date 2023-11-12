@@ -1,12 +1,11 @@
 import { FC } from 'react';
-import Content from './components/Content';
+import { router } from './services/router';
+import { RouterProvider } from 'react-router-dom';
 
 const App: FC = () => {
 
   return (
-    <>
-      <Content />
-    </>
+    <RouterProvider router={router} />
   )
 }
 
