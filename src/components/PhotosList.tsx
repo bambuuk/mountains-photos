@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import data from '../data/data.json';
 import { Container } from './Container';
 import Popup from './Popup';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   margin: 50px 0;
@@ -22,6 +23,12 @@ const Wrapper = styled.div`
   @media (min-width: 1240px) {
     grid-template-columns: repeat(3, minmax(auto, 380px));
   }
+`;
+
+const ImgLink = styled(Link)`
+  display: block;
+  width: 100%;
+  height: 100%;
 `;
 
 const Img = styled.img`
@@ -48,7 +55,9 @@ const PhotosList: FC = () => {
 
   const content = data.map(({ img, id }) => {
     return (
-      <Img key={id} onClick={() => setActiveCard(id)} src={img} alt="mountain" />
+      <ImgLink to={`/photo/${id}`} key={id}>
+        <Img onClick={() => setActiveCard(id)} src={img} alt="mountain" />
+      </ImgLink>
     )
   })
 
