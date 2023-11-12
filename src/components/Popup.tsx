@@ -1,11 +1,35 @@
 import { FC, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { TfiClose } from "react-icons/tfi";
 import data from '../data/data.json';
 import { nanoid } from 'nanoid';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const PopupUI = styled.div`
+const fadeIn = keyframes`
+ 0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+`;
+
+const fadeOut = keyframes`
+ 0% {
+  opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+`;
+
+const PopupUI = styled.div<{ isopen: string }>`
+  opacity: 0;
+  animation: ${props => (props.isopen === 'true' ? fadeIn : 'false' ? fadeOut : '')} 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -140,18 +164,23 @@ const CloseIcon = styled(TfiClose)`
 const Popup: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isActiveModal, setIsActiveModal] = useState(Boolean(id));
 
   const photoItem = data.filter(item => item.id === id)[0];
 
   const onClosePopup = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
-      document.body.classList.remove("no-scroll");
-      navigate('/');
+      setIsActiveModal(false);
+      setTimeout(() => {
+        document.body.classList.remove("no-scroll");
+        navigate('/');
+      }, 400);
     }
   }
 
   useEffect(() => {
     document.body.classList.add("no-scroll");
+    setIsActiveModal(true);
   }, []);
 
   const commentListContent = photoItem?.comments.length > 0 ? photoItem.comments.map(item => {
@@ -164,7 +193,7 @@ const Popup: FC = () => {
   }) : 'There are no comments yet';
 
   return (
-    <PopupUI>
+    <PopupUI isopen={`${isActiveModal}`}>
       <PopupOverlay onClick={onClosePopup}>
         <PopupWrapper>
           <PopupImg src={photoItem?.img} alt="mountain" />
