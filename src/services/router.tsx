@@ -2,8 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Layout from "../components/Layout";
 import MainPage from "../pages/MainPage";
-import ModalPage from "../pages/ModalPage";
 import ErrorPage from "../pages/ErrorPage";
+import Popup from "../components/Popup";
 
 export const router = createBrowserRouter(
   [
@@ -17,8 +17,8 @@ export const router = createBrowserRouter(
           element: <MainPage />,
         },
         {
-          path: "/photo/:id",
-          element: <ModalPage />,
+          path: "photo/:id",
+          element: <Popup />,
         },
       ],
     },

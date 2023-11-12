@@ -1,12 +1,11 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { TfiClose } from "react-icons/tfi";
 import data from '../data/data.json';
 import { nanoid } from 'nanoid';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const PopupUI = styled.div<{ isopen: string }>`
-  opacity: ${props => (props.isopen === 'true' ? 1 : 0)};
-  visibility: ${props => (props.isopen === 'true' ? 'visible' : 'hidden')};
+const PopupUI = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -138,22 +137,22 @@ const CloseIcon = styled(TfiClose)`
   }
 `;
 
-interface PopupProps {
-  activeCard: string;
-  onClosePopup: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-}
+const Popup: FC = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-const Popup: FC<PopupProps> = ({ activeCard, onClosePopup }) => {
+  const photoItem = data.filter(item => item.id === id)[0];
 
-  const photoItem = data.filter(item => item.id === activeCard)[0];
+  const onClosePopup = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target === e.currentTarget) {
+      document.body.classList.remove("no-scroll");
+      navigate('/');
+    }
+  }
 
   useEffect(() => {
-    if (activeCard) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
-  }, [activeCard]);
+    document.body.classList.add("no-scroll");
+  }, []);
 
   const commentListContent = photoItem?.comments.length > 0 ? photoItem.comments.map(item => {
     return (
@@ -165,7 +164,7 @@ const Popup: FC<PopupProps> = ({ activeCard, onClosePopup }) => {
   }) : 'There are no comments yet';
 
   return (
-    <PopupUI isopen={`${Boolean(activeCard)}`} >
+    <PopupUI>
       <PopupOverlay onClick={onClosePopup}>
         <PopupWrapper>
           <PopupImg src={photoItem?.img} alt="mountain" />

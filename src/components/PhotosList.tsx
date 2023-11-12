@@ -1,9 +1,8 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import data from '../data/data.json';
 import { Container } from './Container';
-import Popup from './Popup';
-import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   margin: 50px 0;
@@ -45,18 +44,10 @@ const Img = styled.img`
 `;
 
 const PhotosList: FC = () => {
-  const [activeCard, setActiveCard] = useState('');
-
-  const onClosePopup = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (e.target === e.currentTarget) {
-      setActiveCard('');
-    }
-  }
-
   const content = data.map(({ img, id }) => {
     return (
-      <ImgLink to={`/photo/${id}`} key={id}>
-        <Img onClick={() => setActiveCard(id)} src={img} alt="mountain" />
+      <ImgLink to={`photo/${id}`} key={id}>
+        <Img src={img} alt="mountain" />
       </ImgLink>
     )
   })
@@ -66,7 +57,6 @@ const PhotosList: FC = () => {
       <Wrapper>
         {content}
       </Wrapper>
-      <Popup activeCard={activeCard} onClosePopup={onClosePopup} />
     </Container>
   )
 }
