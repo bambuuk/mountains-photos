@@ -51,6 +51,10 @@ const NotMainContentWrapper = styled.div`
   align-items: center;
 `;
 
+const Loader = styled(ClockLoader).attrs({
+  color: 'var(--colors-loader)',
+})``;
+
 const PhotosList: FC = () => {
   const { data: mountainsList = [], isLoading, isError, error } = useGetMountainsListQuery('');
   type ErrorType = { status: number; data: string };
@@ -59,7 +63,7 @@ const PhotosList: FC = () => {
     if (isLoading) {
       return (
         <NotMainContentWrapper>
-          <ClockLoader color="#36d7b7" size={100} />
+          <Loader size={100} />
         </NotMainContentWrapper>
       );
     } else if (isError) {

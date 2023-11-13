@@ -113,6 +113,7 @@ body[data-theme='dark'] {
   --colors-ui-base: rgb(31,31,31);
 	--colors-hover-effect: #cfd8dc;
 	--colors-border: #26323886;
+	--colors-loader: rgb(187,134,252);
 	--photo-shadow: 2px 0px 24px 0px rgba(207, 216, 220, 1);; 
 
   --shadow: rgba(245, 245, 245, 0.2) 0 0 8px;
@@ -123,6 +124,7 @@ body[data-theme='light'] {
   --colors-ui-base: #eeeeee;
 	--colors-hover-effect: #ffb300;
 	--colors-border: #26323886;
+	--colors-loader: rgb(0,0,0);
 	--photo-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
 	
   --shadow: rgba(149, 157, 165, 0.61) 0px 8px 24px;
