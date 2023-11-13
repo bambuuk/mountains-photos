@@ -47,6 +47,7 @@ const Img = styled.img`
 
 const NotMainContentWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -54,6 +55,32 @@ const NotMainContentWrapper = styled.div`
 const Loader = styled(ClockLoader).attrs({
   color: 'var(--colors-loader)',
 })``;
+
+const ErrorMassage = styled.p`
+  color: var(--colors-text);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: var(--fw-normal);
+  text-align: center;
+  @media (min-width: 576px) {
+    font-size: var(--fs-xl);
+  }
+  @media (min-width: 768px) {
+    font-size: var(--fs-xxl);
+  }
+`;
+
+const ErrorTitle = styled.h2`
+  margin: 20px;
+  text-align: center;
+  color: var(--colors-text);
+  font-size: var(--fs-lg);
+  line-height: 24px;
+  font-weight: var(--fw-normal);
+  @media (min-width: 576px) {
+    font-size: 30px;
+  }
+`;
 
 const PhotosList: FC = () => {
   const { data: mountainsList = [], isLoading, isError, error } = useGetMountainsListQuery('');
@@ -69,7 +96,8 @@ const PhotosList: FC = () => {
     } else if (isError) {
       return (
         <NotMainContentWrapper>
-          <h5>{'data' in error ? (error as ErrorType).data : 'Not Found'}</h5>
+          <ErrorTitle>Oops, something go wrong...</ErrorTitle>
+          <ErrorMassage>{'data' in error ? (error as ErrorType).data : 'Not Found'}</ErrorMassage>
         </NotMainContentWrapper>
       );
     }
