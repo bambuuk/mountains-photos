@@ -1,8 +1,10 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import data from '../data/data.json';
+import { useGetMountainsListQuery } from '../api/apiSlice';
+import { IData } from '../types/IData';
 import { Container } from './Container';
+import { ClockLoader } from 'react-spinners';
 
 const Wrapper = styled.div`
   margin: 50px 0;
@@ -43,20 +45,56 @@ const Img = styled.img`
   }
 `;
 
+const NotMainContentWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const PhotosList: FC = () => {
-  const content = data.map(({ img, id }) => {
-    return (
-      <ImgLink to={`photo/${id}`} key={id}>
-        <Img src={img} alt="mountain" />
-      </ImgLink>
-    )
-  })
+  const { data: mountainsList = [], isLoading, isError, error } = useGetMountainsListQuery('');
+  type ErrorType = { status: number; data: string };
+
+  const prepareContent = (arrInfo: IData[] | any[]) => {
+    if (isLoading) {
+      return (
+        <NotMainContentWrapper>
+          <ClockLoader color="#36d7b7" size={100} />
+        </NotMainContentWrapper>
+      );
+    } else if (isError) {
+      return (
+        <NotMainContentWrapper>
+          <h5>{'data' in error ? (error as ErrorType).data : 'Not Found'}</h5>
+        </NotMainContentWrapper>
+      );
+    }
+
+    if (arrInfo.length > 0) {
+      return (
+        <Wrapper>
+          {
+            arrInfo.map(({ img, id }) => {
+
+              return (
+                <ImgLink to={`photo/${id}`} key={id}>
+                  <Img src={img} alt="mountain" />
+                </ImgLink>
+              )
+            })
+          }
+        </Wrapper>
+      )
+    } else {
+      return (<div>No photos yet</div>)
+    }
+  }
+
+  const content = prepareContent(mountainsList);
 
   return (
     <Container>
-      <Wrapper>
-        {content}
-      </Wrapper>
+      {content}
     </Container>
   )
 }
