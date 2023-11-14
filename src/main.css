@@ -109,6 +109,7 @@ h6 {
 
 body[data-theme='dark'] {
   --colors-text: rgb(187,134,252);
+  --colors-subtitle-text: #cfd8dc;
   --colors-bg: rgb(18,18,18);
   --colors-ui-base: rgb(31,31,31);
 	--colors-hover-effect: #cfd8dc;
@@ -120,6 +121,7 @@ body[data-theme='dark'] {
 }
 body[data-theme='light'] {
   --colors-text: rgb(0,0,0);
+	--colors-subtitle-text: #455a64;
   --colors-bg: rgb(255,255,255);
   --colors-ui-base: #eeeeee;
 	--colors-hover-effect: #ffb300;

@@ -107,9 +107,21 @@ const CommentItem = styled.div`
   gap: 5px;
 `;
 
-const CommentDate = styled.span`
+const CommentsSubtitleWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: end;
+`;
+
+const CommentsDate = styled.span`
   font-size: var(--fs-sm);
-  color: #455a64;
+  color: var(--colors-subtitle-text);
+  font-weight: var(--fw-light);
+`;
+
+const CommentsNickname = styled.span`
+  font-size: var(--fs-md);
+  color: var(--colors-text);
   font-weight: var(--fw-light);
 `;
 
@@ -155,7 +167,7 @@ const CloseIcon = styled(TfiClose)`
   top: 10px;
   right: 10px;
   font-size: var(--fs-lg);
-  color: var(--colors-text);
+  color: #ff7300;
   cursor: pointer;
   transition: color 0.2s;
   &:hover {
@@ -210,7 +222,10 @@ const Popup: FC = () => {
   const commentListContent = photoItem?.comments.length > 0 ? photoItem.comments.map((item: IComments) => {
     return (
       <CommentItem key={nanoid()}>
-        <CommentDate>{item.date}</CommentDate>
+        <CommentsSubtitleWrapper>
+          <CommentsDate>{item.date}</CommentsDate>
+          <CommentsNickname>{item.name}</CommentsNickname>
+        </CommentsSubtitleWrapper>
         <CommentText>{item.text}</CommentText>
       </CommentItem>
     )
