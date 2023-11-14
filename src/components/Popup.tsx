@@ -1,10 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, FormEvent } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { TfiClose } from "react-icons/tfi";
-import data from '../data/data.json';
 import { nanoid } from 'nanoid';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetMountainsListQuery } from '../api/apiSlice';
+import { useGetMountainsListQuery, useUpdateMountainMutation } from '../api/apiSlice';
 import { IData } from '../types/IData';
 import { IComments } from '../types/IComments';
 
@@ -168,7 +167,10 @@ const Popup: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isActiveModal, setIsActiveModal] = useState(Boolean(id));
+  const [name, setName] = useState('');
+  const [comment, setComment] = useState('');
   const { data: mountainsList = [] } = useGetMountainsListQuery('');
+  const [updateMountain] = useUpdateMountainMutation();
 
   const photoItem = mountainsList?.filter((item: IData) => item.id === id)[0];
 
@@ -180,6 +182,24 @@ const Popup: FC = () => {
         navigate('/');
       }, 400);
     }
+  }
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const updatedMountainObj = {
+      ...photoItem,
+      comments: [
+        ...photoItem.comments,
+        {
+          date: `${new Date().toLocaleDateString()}`,
+          name,
+          text: comment
+        }
+      ]
+    }
+    updateMountain(updatedMountainObj).unwrap();
+    setName('');
+    setComment('');
   }
 
   useEffect(() => {
@@ -205,9 +225,9 @@ const Popup: FC = () => {
           <CommentsList>
             {commentListContent}
           </CommentsList>
-          <Form>
-            <Input type="text" className="Input" placeholder='Your name' />
-            <Input type="text" className="Input" placeholder='Your comment' />
+          <Form onSubmit={onSubmit}>
+            <Input type="text" placeholder='Your name' value={name} onChange={(e) => setName(e.target.value)} />
+            <Input type="text" placeholder='Your comment' value={comment} onChange={(e) => setComment(e.target.value)} />
             <Button className="Button">Send comment</Button>
           </Form>
         </PopupWrapper>
