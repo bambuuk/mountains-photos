@@ -4,6 +4,8 @@ import { Container } from './Container';
 import { FiSun, FiMoon } from 'react-icons/fi';
 
 const HeaderEl = styled.header`
+  position: fixed;
+  width: 100%;
   background-color: var(--colors-ui-base);
   box-shadow: var(--shadow);
 `;

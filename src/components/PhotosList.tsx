@@ -7,7 +7,7 @@ import { Container } from './Container';
 import { ClockLoader } from 'react-spinners';
 
 const Wrapper = styled.div`
-  margin: 50px 0;
+  margin: 104px 0 50px 0;
   display: grid;
   grid-template-columns: minmax(250px, auto);
   grid-auto-rows: minmax(auto, 150px);

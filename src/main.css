@@ -116,7 +116,7 @@ body[data-theme='dark'] {
 	--colors-loader: rgb(187,134,252);
 	--photo-shadow: 2px 0px 24px 0px rgba(207, 216, 220, 1);; 
 
-  --shadow: rgba(245, 245, 245, 0.2) 0 0 8px;
+  --shadow: rgba(207, 216, 220, 1) 0 0 8px;
 }
 body[data-theme='light'] {
   --colors-text: rgb(0,0,0);
@@ -127,7 +127,7 @@ body[data-theme='light'] {
 	--colors-loader: rgb(0,0,0);
 	--photo-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
 	
-  --shadow: rgba(149, 157, 165, 0.61) 0px 8px 24px;
+  --shadow: rgba(79, 79, 80, 0.74) 0 0 8px;
 }
 
 body {
