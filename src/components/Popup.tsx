@@ -4,6 +4,9 @@ import { TfiClose } from "react-icons/tfi";
 import data from '../data/data.json';
 import { nanoid } from 'nanoid';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useGetMountainsListQuery } from '../api/apiSlice';
+import { IData } from '../types/IData';
+import { IComments } from '../types/IComments';
 
 const fadeIn = keyframes`
  0% {
@@ -165,8 +168,9 @@ const Popup: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isActiveModal, setIsActiveModal] = useState(Boolean(id));
+  const { data: mountainsList = [] } = useGetMountainsListQuery('');
 
-  const photoItem = data.filter(item => item.id === id)[0];
+  const photoItem = mountainsList?.filter((item: IData) => item.id === id)[0];
 
   const onClosePopup = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
@@ -183,7 +187,7 @@ const Popup: FC = () => {
     setIsActiveModal(true);
   }, []);
 
-  const commentListContent = photoItem?.comments.length > 0 ? photoItem.comments.map(item => {
+  const commentListContent = photoItem?.comments.length > 0 ? photoItem.comments.map((item: IComments) => {
     return (
       <CommentItem key={nanoid()}>
         <CommentDate>{item.date}</CommentDate>
