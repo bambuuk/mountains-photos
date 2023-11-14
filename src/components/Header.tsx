@@ -49,7 +49,20 @@ const ThemeSwitcherText = styled.div`
 `;
 
 const Header: FC = () => {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState<string>(() => {
+    const storedTheme = localStorage.getItem('mountainsTheme');
+    return storedTheme !== null ? storedTheme : 'light';
+  });
+
+  const switchTheme = () => {
+    if (theme === 'light') {
+      localStorage.setItem('mountainsTheme', 'dark');
+      setTheme('dark');
+    } else {
+      localStorage.setItem('mountainsTheme', 'light');
+      setTheme('light');
+    }
+  }
 
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
@@ -60,7 +73,7 @@ const Header: FC = () => {
       <Container>
         <Wrapper>
           <Logo>Photo list</Logo>
-          <ThemeSwitcherWrapper onClick={() => setTheme((state) => state === 'dark' ? 'light' : 'dark')}>
+          <ThemeSwitcherWrapper onClick={switchTheme}>
             <ThemeSwitcher>
               {theme === 'dark' ? <FiMoon /> : <FiSun />}
             </ThemeSwitcher>
