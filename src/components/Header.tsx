@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Container } from './Container';
 import { FiSun, FiMoon } from 'react-icons/fi';
+import { noScrollbarsClassName } from 'react-remove-scroll-bar';
 
 const HeaderEl = styled.header`
   position: fixed;
@@ -71,7 +72,7 @@ const Header: FC = () => {
   }, [theme]);
 
   return (
-    <HeaderEl>
+    <HeaderEl className={noScrollbarsClassName}>
       <Container>
         <Wrapper>
           <Logo>Photo list</Logo>

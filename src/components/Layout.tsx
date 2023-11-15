@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 import PhotosList from './PhotosList';
+import { fullWidthClassName } from 'react-remove-scroll-bar';
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ const MainContent = styled.main`
 
 const Content: FC = () => {
   return (
-    <Wrapper>
+    <Wrapper className={fullWidthClassName}>
       <Header />
       <MainContent>
         <PhotosList />

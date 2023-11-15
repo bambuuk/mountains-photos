@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { TfiClose } from "react-icons/tfi";
 import { nanoid } from 'nanoid';
 import { useNavigate, useParams } from 'react-router-dom';
+import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import { useGetMountainsListQuery, useUpdateMountainMutation } from '../api/apiSlice';
 import { IData } from '../types/IData';
 import { IComments } from '../types/IComments';
@@ -190,7 +191,6 @@ const Popup: FC = () => {
     if (e.target === e.currentTarget) {
       setIsActiveModal(false);
       setTimeout(() => {
-        document.body.classList.remove("no-scroll");
         navigate('/');
       }, 400);
     }
@@ -215,7 +215,6 @@ const Popup: FC = () => {
   }
 
   useEffect(() => {
-    document.body.classList.add("no-scroll");
     setIsActiveModal(true);
   }, []);
 
@@ -233,6 +232,7 @@ const Popup: FC = () => {
 
   return (
     <PopupUI isopen={`${isActiveModal}`}>
+      <RemoveScrollBar />
       <PopupOverlay onClick={onClosePopup}>
         <PopupWrapper>
           <PopupImg src={photoItem?.img} alt="mountain" />
