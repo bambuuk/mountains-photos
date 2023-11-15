@@ -204,8 +204,8 @@ const Popup: FC = () => {
         ...photoItem.comments,
         {
           date: `${new Date().toLocaleDateString()}`,
-          name,
-          text: comment
+          name: name.trim(),
+          text: comment.trim(),
         }
       ]
     }
@@ -241,8 +241,8 @@ const Popup: FC = () => {
             {commentListContent}
           </CommentsList>
           <Form onSubmit={onSubmit}>
-            <Input type="text" placeholder='Your name' value={name} onChange={(e) => setName(e.target.value)} />
-            <Input type="text" placeholder='Your comment' value={comment} onChange={(e) => setComment(e.target.value)} />
+            <Input required type="text" minLength={3} maxLength={50} placeholder='Your name' value={name} onChange={(e) => setName(e.target.value)} />
+            <Input required type="text" minLength={3} maxLength={300} placeholder='Your comment' value={comment} onChange={(e) => setComment(e.target.value)} />
             <Button className="Button">Send comment</Button>
           </Form>
         </PopupWrapper>
