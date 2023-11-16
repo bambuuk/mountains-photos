@@ -1,12 +1,10 @@
-import { FC, useEffect, useState, FormEvent } from 'react';
+import { FC } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import { TfiClose } from "react-icons/tfi";
 import { nanoid } from 'nanoid';
-import { useNavigate, useParams } from 'react-router-dom';
-import { RemoveScrollBar } from 'react-remove-scroll-bar';
-import { useGetMountainsListQuery, useUpdateMountainMutation } from '../api/apiSlice';
-import { IData } from '../types/IData';
 import { IComments } from '../types/IComments';
+import useControlPopup from '../hooks/useControlPopup';
 
 const fadeIn = keyframes`
  0% {
@@ -177,46 +175,16 @@ const CloseIcon = styled(TfiClose)`
 `;
 
 const Popup: FC = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [isActiveModal, setIsActiveModal] = useState(Boolean(id));
-  const [name, setName] = useState('');
-  const [comment, setComment] = useState('');
-  const { data: mountainsList = [] } = useGetMountainsListQuery('');
-  const [updateMountain] = useUpdateMountainMutation();
-
-  const photoItem = mountainsList?.filter((item: IData) => item.id === id)[0];
-
-  const onClosePopup = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (e.target === e.currentTarget) {
-      setIsActiveModal(false);
-      setTimeout(() => {
-        navigate('/');
-      }, 400);
-    }
-  }
-
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const updatedMountainObj = {
-      ...photoItem,
-      comments: [
-        ...photoItem.comments,
-        {
-          date: `${new Date().toLocaleDateString()}`,
-          name: name.trim(),
-          text: comment.trim(),
-        }
-      ]
-    }
-    updateMountain(updatedMountainObj).unwrap();
-    setName('');
-    setComment('');
-  }
-
-  useEffect(() => {
-    setIsActiveModal(true);
-  }, []);
+  const {
+    photoItem,
+    isActiveModal,
+    onClosePopup,
+    onSubmit,
+    name,
+    comment,
+    setName,
+    setComment,
+  } = useControlPopup();
 
   const commentListContent = photoItem?.comments.length > 0 ? photoItem.comments.map((item: IComments) => {
     return (
