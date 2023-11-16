@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { Outlet } from "react-router-dom";
 import styled from 'styled-components';
+import { fullWidthClassName } from 'react-remove-scroll-bar';
 import Header from './Header';
 import Footer from './Footer';
 import PhotosList from './PhotosList';
-import { fullWidthClassName } from 'react-remove-scroll-bar';
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const MainContent = styled.main`
   align-items: center;
 `;
 
-const Content: FC = () => {
+const Layout: FC = () => {
   return (
     <Wrapper className={fullWidthClassName}>
       <Header />
@@ -31,4 +31,4 @@ const Content: FC = () => {
   )
 }
 
-export default Content
+export default Layout;

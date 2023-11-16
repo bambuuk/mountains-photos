@@ -5,6 +5,8 @@ import { useGetMountainsListQuery } from '../api/apiSlice';
 import { IData } from '../types/IData';
 import { Container } from './Container';
 import { ClockLoader } from 'react-spinners';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit';
 
 const Wrapper = styled.div`
   margin: 104px 0 50px 0;
@@ -86,18 +88,18 @@ const PhotosList: FC = () => {
   const { data: mountainsList = [], isLoading, isError, error } = useGetMountainsListQuery('');
   type ErrorType = { status: number; data: string };
 
-  const prepareContent = (arrInfo: IData[] | any[]) => {
-    if (isLoading) {
+  const preparePhotoListContent = (arrInfo: IData[] | any[], loadingStatus: boolean, errorStatus: boolean, errorObj: FetchBaseQueryError | SerializedError | undefined) => {
+    if (loadingStatus) {
       return (
         <NotMainContentWrapper>
           <Loader size={100} />
         </NotMainContentWrapper>
       );
-    } else if (isError) {
+    } else if (errorStatus && errorObj) {
       return (
         <NotMainContentWrapper>
           <ErrorTitle>Oops, something go wrong...</ErrorTitle>
-          <ErrorMassage>{'data' in error ? (error as ErrorType).data : 'Not Found'}</ErrorMassage>
+          <ErrorMassage>{'data' in errorObj ? (errorObj as ErrorType).data : 'Not Found'}</ErrorMassage>
         </NotMainContentWrapper>
       );
     }
@@ -122,7 +124,7 @@ const PhotosList: FC = () => {
     }
   }
 
-  const content = prepareContent(mountainsList);
+  const content = preparePhotoListContent(mountainsList, isLoading, isError, error);
 
   return (
     <Container>
