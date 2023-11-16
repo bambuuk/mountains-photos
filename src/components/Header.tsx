@@ -1,8 +1,9 @@
-import { FC, useState, useEffect } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { Container } from './Container';
 import { FiSun, FiMoon } from 'react-icons/fi';
 import { noScrollbarsClassName } from 'react-remove-scroll-bar';
+import useSwitchTheme from '../hooks/useSwitchTheme';
 
 const HeaderEl = styled.header`
   position: fixed;
@@ -52,24 +53,7 @@ const ThemeSwitcherText = styled.div`
 `;
 
 const Header: FC = () => {
-  const [theme, setTheme] = useState<string>(() => {
-    const storedTheme = localStorage.getItem('mountainsTheme');
-    return storedTheme !== null ? storedTheme : 'light';
-  });
-
-  const switchTheme = () => {
-    if (theme === 'light') {
-      localStorage.setItem('mountainsTheme', 'dark');
-      setTheme('dark');
-    } else {
-      localStorage.setItem('mountainsTheme', 'light');
-      setTheme('light');
-    }
-  }
-
-  useEffect(() => {
-    document.body.setAttribute("data-theme", theme);
-  }, [theme]);
+  const { theme, switchTheme } = useSwitchTheme();
 
   return (
     <HeaderEl className={noScrollbarsClassName}>
