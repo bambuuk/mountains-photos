@@ -20,10 +20,13 @@ const Wrapper = styled.div`
 `;
 
 const Logo = styled.div`
-  font-size: var(--fs-lg);
+  font-size: var(--fs-md);
   font-weight: var(--fw-bold);
   text-transform: capitalize;
   user-select: none;
+  @media (min-width: 576px) {
+    font-size: var(--fs-lg);
+  }
 `;
 
 const ThemeSwitcherWrapper = styled.div`
@@ -48,8 +51,12 @@ const ThemeSwitcher = styled.div`
 `;
 
 const ThemeSwitcherText = styled.div`
+  display: none;
   font-size: var(--fs-md);
   text-transform: capitalize;
+  @media (min-width: 576px) {
+    display: block;
+  }
 `;
 
 const Header: FC = () => {
@@ -59,7 +66,7 @@ const Header: FC = () => {
     <HeaderEl className={noScrollbarsClassName}>
       <Container>
         <Wrapper>
-          <Logo>Photo list</Logo>
+          <Logo>Mountains Photos</Logo>
           <ThemeSwitcherWrapper onClick={switchTheme}>
             <ThemeSwitcher>
               {theme === 'dark' ? <FiMoon /> : <FiSun />}
