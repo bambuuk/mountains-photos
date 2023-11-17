@@ -167,11 +167,10 @@ const CloseIcon = styled(TfiClose)`
   top: 10px;
   right: 10px;
   font-size: var(--fs-lg);
-  color: #ff7300;
+  color: red;
   cursor: pointer;
-  transition: color 0.2s;
   &:hover {
-    color: red;
+    scale: calc(0.8);
   }
 `;
 
