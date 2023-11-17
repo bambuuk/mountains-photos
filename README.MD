@@ -7,7 +7,6 @@ This SPA was created to showcase various mountain photos and allow users to add 
 - typescript
 - react
 - rtk-query
-- redux-persist
 - react-icons
 - react-router-dom v6
 - react-spinners
