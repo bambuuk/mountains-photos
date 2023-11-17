@@ -1,8 +1,9 @@
 import { FC } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { StyleSheetManager, keyframes } from 'styled-components';
 import { RemoveScrollBar } from 'react-remove-scroll-bar';
 import { TfiClose } from "react-icons/tfi";
 import { nanoid } from 'nanoid';
+import isPropValid from '@emotion/is-prop-valid';
 import { IComments } from '../types/IComments';
 import useControlPopup from '../hooks/useControlPopup';
 
@@ -28,9 +29,9 @@ const fadeOut = keyframes`
   }
 `;
 
-const PopupUI = styled.div.attrs<{ $isopen: string }>((props) => ({ $isopen: props.$isopen }))`
+const PopupUI = styled.div<{ isopen: string }>`
   opacity: 0;
-  animation: ${({ $isopen }) => ($isopen === 'true' ? fadeIn : 'false' ? fadeOut : '')} 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  animation: ${props => (props.isopen === 'true' ? fadeIn : 'false' ? fadeOut : '')} 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -199,23 +200,30 @@ const Popup: FC = () => {
   }) : 'There are no comments yet';
 
   return (
-    <PopupUI $isopen={`${isActiveModal}`}>
-      <RemoveScrollBar />
-      <PopupOverlay onClick={onClosePopup}>
-        <PopupWrapper>
-          <PopupImg src={photoItem?.img} alt="mountain" />
-          <CloseIcon onClick={onClosePopup} />
-          <CommentsList>
-            {commentListContent}
-          </CommentsList>
-          <Form onSubmit={onSubmit}>
-            <Input required type="text" minLength={3} maxLength={50} placeholder='Your name' value={name} onChange={(e) => setName(e.target.value)} />
-            <Input required type="text" minLength={3} maxLength={300} placeholder='Your comment' value={comment} onChange={(e) => setComment(e.target.value)} />
-            <Button className="Button">Send comment</Button>
-          </Form>
-        </PopupWrapper>
-      </PopupOverlay>
-    </PopupUI>
+    <StyleSheetManager
+      enableVendorPrefixes
+      shouldForwardProp={(propName, elementToBeRendered) => {
+        return typeof elementToBeRendered === 'string' ? isPropValid(propName) : true;
+      }}
+    >
+      <PopupUI isopen={`${isActiveModal}`}>
+        <RemoveScrollBar />
+        <PopupOverlay onClick={onClosePopup}>
+          <PopupWrapper>
+            <PopupImg src={photoItem?.img} alt="mountain" />
+            <CloseIcon onClick={onClosePopup} />
+            <CommentsList>
+              {commentListContent}
+            </CommentsList>
+            <Form onSubmit={onSubmit}>
+              <Input required type="text" minLength={3} maxLength={50} placeholder='Your name' value={name} onChange={(e) => setName(e.target.value)} />
+              <Input required type="text" minLength={3} maxLength={300} placeholder='Your comment' value={comment} onChange={(e) => setComment(e.target.value)} />
+              <Button className="Button">Send comment</Button>
+            </Form>
+          </PopupWrapper>
+        </PopupOverlay>
+      </PopupUI>
+    </StyleSheetManager>
   )
 }
 
