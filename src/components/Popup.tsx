@@ -28,9 +28,9 @@ const fadeOut = keyframes`
   }
 `;
 
-const PopupUI = styled.div<{ isopen: string }>`
+const PopupUI = styled.div.attrs<{ $isopen: string }>((props) => ({ $isopen: props.$isopen }))`
   opacity: 0;
-  animation: ${props => (props.isopen === 'true' ? fadeIn : 'false' ? fadeOut : '')} 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  animation: ${({ $isopen }) => ($isopen === 'true' ? fadeIn : 'false' ? fadeOut : '')} 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -199,7 +199,7 @@ const Popup: FC = () => {
   }) : 'There are no comments yet';
 
   return (
-    <PopupUI isopen={`${isActiveModal}`}>
+    <PopupUI $isopen={`${isActiveModal}`}>
       <RemoveScrollBar />
       <PopupOverlay onClick={onClosePopup}>
         <PopupWrapper>
